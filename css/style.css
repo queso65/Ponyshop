@@ -23,15 +23,14 @@ html, body{
 	.container{
 		max-width:750px;
 	}
+	
 }
-
 
 
 .header{
     background: #ff7af2;
     padding: 35px 0;
 }
-
 .container{
 	flex-wrap: wrap;
     max-width: 1140px;
@@ -42,6 +41,10 @@ html, body{
     margin-bottom: 0;
     margin-left: auto;
     margin-right: auto;
+}
+
+.align-items_center{
+	align-items: center;
 }
 
 .header-right{
@@ -76,6 +79,7 @@ html, body{
     height: 100%;
     font-size: 13px;
 }
+
 ::-webkit-input-placeholder {
     color: #fff
 }
