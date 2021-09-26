@@ -433,6 +433,13 @@ a:hover {
 	padding:20px;
 }
 
+.msg{
+    border: 2px solid #ffa908;
+	border-radius: 3px;
+	padding: 2px;
+	text-align: center;
+}
+
 .login__center{
 	display:flex; 
 	position:absolute; 
