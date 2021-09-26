@@ -36,7 +36,6 @@ html, body{
 	flex-wrap: wrap;
     max-width: 1140px;
     display: flex;
-    align-items: center;
     padding-left: 15px;
     padding-right: 15px;
     margin-top: 0;
@@ -44,6 +43,7 @@ html, body{
     margin-left: auto;
     margin-right: auto;
 }
+
 .header-right{
 	flex-wrap: wrap;
     display: flex;
@@ -165,17 +165,12 @@ button {
     margin-top: -2px;
 }
 
-
-
 .menu {
     height: 60px;
 
 }
-.menu__container {
-    position: relative;
-}
+
 .catalog {
-    position: absolute;
     width: 260px;
     top: 0;
 	font-family: Noto Sans, sans-serif;
@@ -254,10 +249,10 @@ li {
 }
 
 .menu__nav {
-    padding-left: 290px;
+    padding-left: 50px;
+	padding-top: 20px;
     height: 100%;
     display: flex;
-    align-items: center;
 }
 
 .menu__nav-link {
@@ -268,14 +263,15 @@ li {
     transition: all .3s;
 }
 
-.menu__border {
+.menu__border{
     display: flex;
-    justify-content: flex-end;
     margin-left: auto;
     border-left: 1px solid #e0e0e0;
     padding-left: 40px;
     height: 60px;
 }
+
+
 
 p {
     margin: 0;
