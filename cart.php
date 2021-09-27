@@ -1,3 +1,9 @@
+<?php
+     require_once 'vendor/connect.php';
+	 include 'catalog.php';
+	 require_once 'functions.php';
+     session_start();
+?>
 <!DOCTYPE html>
 <head>
     <meta charset="utf-8">
@@ -8,8 +14,8 @@
 </head>
 <body>	
 	<header class="header">
-		<div class="container">
-			<a href="index.html" class="logo" title="logo">
+		<div class="container align-items_center">
+			<a href="index.php" class="logo" title="logo">
 				<img src="img/logo.png" alt="Logo">
 			</a>
 			<div class="header-right">
@@ -18,17 +24,17 @@
 					<button><i class="fa fa-search search-i"></i></button>
 				</form>
 				<div class="cart-informer" >
-					<button class="cart-informer__button" onclick="">
-						<span class="cart-informer__count">0</span>
+					<button class="cart-informer__button" onclick="window.location.href='cart.php'">
+						<span class="cart-informer__count" id="cart_count"><?php echo get_cart_count()?></span>
 						<span class="cart-informer__icon"><i class="fa fa-shopping-cart cart-informer__icon-i"></i></span>
-						<span class="cart-informer__value" >0 Р</span>
+						<span class="cart-informer__value" id="cart_cost"><?php echo get_cart_cost() ?></span>
 					</button>
 				</div>
 				<div class="cart-informer">
-				    <button class="button_login" onclick="">
+				    <button class="button_login" onclick="window.location.href='login.php'">
 					    Вход
 					</button>
-				</div>				
+				</div>	
 		</div>
 	</header>	
 
@@ -36,24 +42,37 @@
 	<div class="menu">
 		<div class="container menu__container">
 			<div class="catalog">
-				<div class="catalog__wrapper open" id = "catalog" >
+				<div class="catalog__wrapper" id = "catalog">
 					<div class="catalog__header "><span>Категории</span><i class="fa fa-bars catalog__header-icon"></i></div>
 					<ul class="catalog__list">
+					<?php
+				    foreach($categories as $category){
+					?>
 						<li class="catalog__item">
-							<a href="" class="catalog__link">
-								футболки 
+						<?php
+						    if($category['parent'] == 0){
+						?>
+							<a href="index.php?id=<?= $category['id']?>" class="catalog__link">
+								<?=$category['title']?>
 							</a>
+							<?php
+						    foreach($categories as $subcategory){
+						    if($category['id'] == $subcategory['parent']){
+						    ?>
 							<div class="catalog__subcatalog">
-								<a href="" class="catalog__subcatalog-link">футболки с единорогами</a>
-							</div>	
-                            <a href="" class="catalog__link">
-								брелки
-							</a>
-							<a href="" class="catalog__link">
-								канцелярия 
-							</a>
-							
-						</li>			   
+								<a href="index.php?id=<?= $subcategory['id']?>" class="catalog__subcatalog-link"><?=$subcategory['title']?></a>
+							</div>
+							<?php
+							    }
+							}
+                        ?>		
+							<?php
+							}
+						?>					
+						</li>
+                   <?php
+				   }
+                   ?>				   
 					</ul>
 				</div>
 			</div>	
@@ -66,50 +85,35 @@
 	</div>
 	
 	<div class="shopping-cart">
- 	  <div class="header-cart">
-            <div class = "total__price-cart"> Итоговая цена: </div>
+	  <div class="header-cart">
+            <div class = "total__price-cart">Итоговая цена: <span class="total"><?php echo get_cart_cost() ?></span></div>
 	        <div class = "total__buton-cart"><button class="total__buton__text-cart">Заказать</button></div>
 	  </div> 
- 
-      <div class="item-cart">
-	 <div class="delate__item-cart"><button class="delate__item__text-cart">удалить</button></div>
+	  <?php if ( isset($_SESSION['cart_list']) ){
+		  foreach($_SESSION['cart_list'] as $good){
+	   ?>
+      <div class="item-cart" data-id="<? echo $good['id'] ?>">
+	 <div class="delate__item-cart"><button class="delate__item__text-cart" id="delate__item" data-id="<? echo $good['id'] ?>">удалить</button></div>
 	     <div class = "product__inf-cart">
-         <img src="img/T-shirt.jpg" class="image-cart" alt="" />
+         <img src="<?=$good['image']?>" class="image-cart" alt="" />
  
-        <div class="description-cart">Футболка с единорогом</div>
+        <div class="description-cart"><?=$good['name']?></div>
 
-		<div class="item__price-cart">549₽</div>
+		<div class="item__price-cart"><?=$good['price']?>₽</div>
 		</div>
       </div>
-	  <div class="item-cart">
-	 <div class="delate__item-cart"><button class="delate__item__text-cart">удалить</button></div>
-	     <div class = "product__inf-cart">
-         <img src="img/T-shirt.jpg" class="image-cart" alt="" />
- 
-        <div class="description-cart">Футболка с единорогом</div>
-
-		<div class="item__price-cart">549₽</div>
-		</div>
-      </div>
-	  <div class="item-cart">
-	 <div class="delate__item-cart"><button class="delate__item__text-cart">удалить</button></div>
-	     <div class = "product__inf-cart">
-         <img src="img/T-shirt.jpg" class="image-cart" alt="" />
- 
-        <div class="description-cart">Футболка с единорогом</div>
-
-		<div class="item__price-cart">549₽</div>
-		</div>
-      </div>
+	  <?php
+		  }
+	  }
+	  ?>
 	  
- 
-      
     </div>
 	<div class="grey__background">
 <div id="footer">
-    <p class="footer_text">Ponyshop&trade; 2021</p>
+    <p >Ponyshop&trade; <?php echo date('Y') ?></p>
 </div>
 </div>
-<script src="scripts/menu_catalog.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="scripts/main.js"></script>
 </body>
 </html>
