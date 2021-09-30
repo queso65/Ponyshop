@@ -98,11 +98,11 @@
 <div class="table">
 <table>
         <tr>
-		    <th>id</th>
-		    <th>почта</th>
+		    <th class = "corneer__left">id</th>
+		    <th>Почта</th>
 		    <th>Имя</th>
-			<th>роль</th>
-			<th></th>
+			<th>Роль</th>
+			<th class = "corneer__right"></th>
         </tr>
 		<?php
 			 foreach($users as $user){
@@ -111,9 +111,9 @@
 				 <td><?= $user['id'] ?></td>
 		         <td><?= $user['email'] ?></td>
 			     <td><?= $user['fname'] ?></td>
-			     <td><?php echo get_role($user['role']) ?></td>
+			     <td class="role" data-id = "<?= $user['id'] ?>" ><?php echo get_role($user['role']) ?></td>
 				 <td class = "admin_useres_table_function">
-				    <p><a class="dodgerblue" data-id= "<?= $user['id'] ?>"><?php echo action_with_user($user['role']) ?></a></p>
+				    <p><a class="dodgerblue rights" data-id= "<?= $user['id'] ?>" ><?php echo action_with_user($user['role']) ?></a></p>
 					<p class = " margin_top_3"><a class="dodgerblue" data-id= "<?= $user['id'] ?>" >забанить</a></p>
 					<p class = " margin_top_3"><a class="dodgerblue delate_user_button" data-id= "<?= $user['id'] ?>">удалить</a></p>
 				 </td>
