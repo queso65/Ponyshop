@@ -61,11 +61,12 @@ $(function(){
 	$.each(button_delate_user, function(){
 		let current_id = $(this).attr('data-id');
 		$(this).bind('click', function(){
-			$.post( "vendor/delate_user.php", { "delate_id": current_id })
+			$.post( "vendor/admin_functions.php", { "delate_id": current_id })
 			.done(function( data ){
 				if(data == "no_rights"){
 					window.location = 'index.php';
 				}
+				alert(data);
 				if(data == "no_login"){
 					window.location = 'login.php';
 				}
@@ -81,4 +82,47 @@ $(function(){
 		});
     });
 });
+
+
+
+
+$(function(){
+	const rights = $('.rights');
+	const role = $('.role');
+	
+	$.each(rights, function(){
+		$(this).bind('click', function(){
+			let current_id = $(this).attr('data-id');
+			
+			a = $(this).text();
+			if(a == "наз. модератором"){
+				$(this).html("снять модератора");
+			}
+			else{
+				$(this).html("наз. модератором");
+			}
+			
+			$.post( "vendor/admin_functions.php", { "user_id": current_id })
+			.done(function( data ){
+				if(data == "no_rights"){
+					window.location = 'index.php';
+				}
+				alert(data);
+				if(data == "no_login"){
+					window.location = 'login.php';
+				}
+				$.each(role, function(){
+				let role_id = $(this).attr('data-id');
+				if(role_id == current_id){
+					$(this).html(data);
+				}
+	        }); 
+			});
+		});
+    });
+});
+
+
+
+
 
