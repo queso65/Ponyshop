@@ -36,4 +36,13 @@ if( isset($_POST['good_id']) ){
 		
 }
 
+if( isset($_POST['cart_link']) ){
+	if ( isset($_SESSION['user']['id']) ){
+		echo 1;
+	}
+	else{
+		echo 0;
+	}
+}
+
 ?>
