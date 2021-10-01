@@ -16,25 +16,42 @@
 	<header class="header">
 		<div class="container align-items_center">
 			<a href="index.php" class="logo" title="logo">
-				<img src="img/logo.png" alt="Logo">
+				<img src="img/logo.png" class = "img_logo" alt="Logo">
 			</a>
 			<div class="header-right">
 				<form class="search-form">
 					<input type="text" name="id" value="" placeholder="Поиск" class="search search-input">
 					<button><i class="fa fa-search search-i"></i></button>
 				</form>
+				<div class = "block">
+				<div class = "subblock">
 				<div class="cart-informer" >
-					<button class="cart-informer__button" onclick="window.location.href='admin.php'">
+					<button class="cart-informer__button" >
 						<span class="cart-informer__count" id="cart_count"><?php echo get_cart_count()?></span>
 						<span class="cart-informer__icon"><i class="fa fa-shopping-cart cart-informer__icon-i"></i></span>
 						<span class="cart-informer__value" id="cart_cost"><?php echo get_cart_cost() ?></span>
 					</button>
 				</div>
-				<div class="cart-informer">
+				<?php 
+				    if($_SESSION['user']['user_id'] == ''):
+				?>
+				<div class="login">
 				    <button class="button_login" onclick="window.location.href='login.php'">
 					    Вход
 					</button>
-				</div>		
+				</div>
+				<?php else:?>
+                 <div class="dropdown">
+                <button class="dropbtn" onclick="myFunction()"> личный кабинет
+                     <i class="fa fa-caret-down"></i>
+                </button>
+                <div class="dropdown-content" id="myDropdown">
+                    <a href="">Перейти</a>
+                    <a href="">Выход</a>
+                    </div>
+                </div> 	
+                <?php endif;?>					
+		</div>
 		</div>
 	</header>	
 	 
@@ -101,6 +118,26 @@
   <?php
 	}
 ?>
+</div>
+<div class = "pages">
+    <div class = "page__left page-text">
+	  <<
+	</div>
+    <div class="page page-text">
+     1	
+	</div>
+	<div class="page page-text">
+     2
+	</div>
+	<div class="page page-text">
+     3
+	</div>
+	<div class="page page-text">
+     4	
+	</div>
+	<div class = "page__right page-text">
+	>>
+	</div>
 </div>
 <div class="grey__background">
 <div id="footer">
