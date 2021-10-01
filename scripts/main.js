@@ -122,6 +122,27 @@ $(function(){
     });
 });
 
+$(function(){
+	const cart_informer_button = $('.cart-informer__button');
+	const cart_value = $("#cart_count");
+	
+	
+	cart_informer_button.click(function(){
+		value = cart_value.text();
+		$.post( "api.php", { "cart_link": 1 })
+		.done(function( data ){
+		if(value == 0){
+		}
+		else if (data == 0){
+			window.location = 'login.php';
+		}
+		else{
+			window.location = 'cart.php';
+		}
+		});
+	});
+});
+
 
 
 
