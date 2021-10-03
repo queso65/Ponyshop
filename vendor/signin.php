@@ -1,32 +1,28 @@
 <?php
-
-    session_start();
 	require_once 'connect.php';
+	session_start();
 	
-
+	if(isset($_POST['submit'])){
 	
-	$email = $_POST['email'];
-	$psw= md5($_POST['psw']);
+	$er = mysqli_escape_string($connect, trim($_POST['email']));
+	$query = "SELECT * FROM users WHERE email = '$er'";
 	
-	$check_user = mysqli_query($connect, "SELECT * FROM `users` WHERE `email` = '$email' AND `psw` =  '$psw'");
-	if(mysqli_num_rows($check_user)>0){
-		
-	$user = mysqli_fetch_assoc($check_user);
-		
-	setcookie('user', $user['role'],  time() + 10, "/");
-		
+	$req = mysqli_query($connect, $query);
+	$user = mysqli_fetch_assoc($req);
+	
+	if($user['psw'] === md5($_POST['psw'])){
+	
     $_SESSION['user'] = array(
         'id' => $user['id'],
         'name' => $user['name'],
         'role' => $user['role'],
     );
-		
-		
-		
-		
+	
+	header('Location: ../index.php');
 	}else{
 		$_SESSION['message'] = 'Не верный логин или пароль';
 	}
 	
-	 header('Location: ../index.php');
+
+	}
 ?>
