@@ -2,8 +2,9 @@
      require_once 'vendor/connect.php';
 	 require_once 'vendor/catalog.php';
 	 require_once 'vendor/functions.php';
-	 require_once 'vendor/last_ord.php';
      session_start();
+	 $good = get_good_by_id($_GET['id']);
+	 $category_ = get_category_by_id($good['cat_id']);
 ?>
 <!DOCTYPE html>
 <head>
@@ -72,17 +73,17 @@
 							<a href="index.php?id=<?= $category['id']?>" class="catalog__link">
 								<?=$category['title']?>
 							</a>
-							<?php
-						    foreach($categories as $subcategory){
-						    if($category['id'] == $subcategory['parent']){
-						    ?>
 							<div class="catalog__subcatalog">
-								<a href="index.php?id=<?= $subcategory['id']?>" class="catalog__subcatalog-link"><?=$subcategory['title']?></a>
-							</div>
 							<?php
-							    }
-							}
-                        ?>		
+								foreach($categories as $subcategory){
+								if($category['id'] == $subcategory['parent']){
+						    ?>
+								<a href="index.php?id=<?= $subcategory['id']?>" class="catalog__subcatalog-link"><?=$subcategory['title']?></a>
+							<?php
+									}
+								}
+							?>		
+							</div>
 							<?php
 							}
 						?>					
@@ -100,45 +101,60 @@
             <a class="menu__border"></a>				
 		</div>
 	</div>
-	
-	<div class = "container">
-	<div class="vertical-menu verticlal-menu_personal_area">
-	   <div class="personal_area_name"><?= $_SESSION['user']['lname'] . " " . $_SESSION['user']['fname'] ?></div>
-		<a href="personal_area.php" class="active border-top" >Последний заказ</a>
-		<a href="update_personal_area.php" class="border-bottom">Изменить данные</a>
-	</div>
-    <div class="shopping-cart last__order">
-	  <div class="header-cart">
-            <div class = "total__price-cart">Последний заказ</div>
-	  </div> 
-	  <?php 
-	  if ($_SESSION['user']['last_ord'] != 0){
-		  foreach($products as $good){
-	   ?>
-      <div class="item-cart item-cart_personal_area" data-id="<? echo $good['id'] ?>">
-	     <div class = "product__inf-cart">
-         <img src="<?=$good['image']?>" class="image-cart" alt="" />
- 
-        <div class="description-cart description-cart_personal_area"><?=$good['name']?></div>
 
-		<div class="item__price-cart"><?=$good['price']?>₽</div>
-		</div>
-      </div>
-	  <?php
-		  }
-	  }
-	  ?>
-	  
-    </div>
+<div class = "container">
+<div class="vertical-menu">
+  <a href="admin.php" class="border-top">Таблица товаров</a>
+  <a href="userse_table.php">Таблица пользователей</a>
+  <a href="#" class="active">Добавить новый товар</a>
+  <a href="#" class="border-bottom">Link 4</a>
 </div>
-	
+<div class = "add_product">
+        <form action = "vendor/update.php" method="post" enctype="multipart/form-data">
+            <div class="add_product_container">
+			
+                <input type="hidden" name="id" value="<?= $good['id'] ?>">
+				
+                <label for="email"><b class="add_product_point">Название</b></label>
+                <input type="text" name="title" value="<?= $good['name'] ?>"  placeholder="Название товара" required class="add_product_text">
 
+                <label for="psw"><b class="add_product_point">Цена</b></label>
+                <input type="number" placeholder="Цена товара" name="price" value="<?= $good['price'] ?>" required class="add_product_text">
+				
+				<label for="psw"><b class="add_product_point">Категория</b></label>
+				<select  name="category"   required class="add_product_text">
+				<option value="<?= $good['cat_id'] ?>" selected disabled hidden><?= $category_['title'] ?></option>
+				<?php 
+				    $catigories = get_categories();
+					foreach($catigories as $category){
+				?>
+                    <option value="<?php echo $category['id'] ?>"><?php echo $category['title'] ?></option>
+					 <?php
+					}
+			   ?>
+               </select>
+			   
+			   <label for="psw"><b class="add_product_point">Изображение</b></label>
+	           <input type="file" name="image" src="<?= $good['image'] ?>" class="add_product_text" >
+				
+                <hr class="registration__line">
+               <button type="submit" class="registerbtn" >Изменить</button>
+	</div>
+	</form>
+	</div>
 </div>
 <div class="grey__background">
 <div id="footer">
     <p >Ponyshop&trade; <?php echo date('Y') ?></p>
 </div>
 </div>
+
+
+
+
+	
+	
+
 
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>

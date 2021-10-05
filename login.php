@@ -9,8 +9,8 @@
 <meta name="viewport" content="width=device-width">
 </head>
 <body >
-<div class="login__center">
-    <div id = 'div_you_want_centered' style = 'margin:auto;'> 
+<div class="login-center">
+    <div style = 'margin:auto;'> 
         <form action = "vendor/signin.php" method="post">
             <div class="registration__container ">
                  <h1>Авторизация</h1>
@@ -23,7 +23,7 @@
                 <input type="password" placeholder="Введите пароль" name="psw" required class="registration__text">
 				
                 <hr class="registration__line">
-               <button type="submit" class="registerbtn" >Войти</button>
+               <button type="submit" class="registerbtn" name="submit">Войти</button>
             <div class="registration__container signin">
                     <p>Нет аккаунта? <a href="registration.php" class= "dodgerblue">Зарегистрироваться</a></p>
             </div>
@@ -40,5 +40,6 @@
 
 </body>
 </html>
+
 
 

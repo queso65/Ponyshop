@@ -2,7 +2,6 @@
      require_once 'vendor/connect.php';
 	 require_once 'vendor/catalog.php';
 	 require_once 'vendor/functions.php';
-	 require_once 'vendor/last_ord.php';
      session_start();
 ?>
 <!DOCTYPE html>
@@ -100,36 +99,44 @@
             <a class="menu__border"></a>				
 		</div>
 	</div>
-	
 	<div class = "container">
 	<div class="vertical-menu verticlal-menu_personal_area">
-	   <div class="personal_area_name"><?= $_SESSION['user']['lname'] . " " . $_SESSION['user']['fname'] ?></div>
-		<a href="personal_area.php" class="active border-top" >Последний заказ</a>
-		<a href="update_personal_area.php" class="border-bottom">Изменить данные</a>
+	    <div class="personal_area_name"><?= $_SESSION['user']['lname'] . " " . $_SESSION['user']['fname'] ?></div>
+		<a href="personal_area.php" class="border-top" >Последний заказ</a>
+		<a href="news.php" class="border-bottom  active">Изменить данные</a>
 	</div>
-    <div class="shopping-cart last__order">
-	  <div class="header-cart">
-            <div class = "total__price-cart">Последний заказ</div>
-	  </div> 
-	  <?php 
-	  if ($_SESSION['user']['last_ord'] != 0){
-		  foreach($products as $good){
-	   ?>
-      <div class="item-cart item-cart_personal_area" data-id="<? echo $good['id'] ?>">
-	     <div class = "product__inf-cart">
-         <img src="<?=$good['image']?>" class="image-cart" alt="" />
- 
-        <div class="description-cart description-cart_personal_area"><?=$good['name']?></div>
+	<div class = "add_product">
+        <form action = "vendor/update_personal_data.php" method="post" enctype="multipart/form-data">
+            <div class="add_product_container">
+			
+                <input type="hidden" name="id" value="<?= $_SESSION['user']['id'] ?>">
+				
+                <label for="fname"><b class="registration__point">Имя</b></label>
+				<input type="text" placeholder="Введите имя" value="<?= $_SESSION['user']['fname']?>" name="fname" required class="registration__text">
+	
+				<label for="lname"><b class="registration__point">Фамилия</b></label>
+				<input type="text" placeholder="Введите фамилию" name="lname" value="<?= $_SESSION['user']['lname']?>" required class="registration__text">
+				
+				<label for="psw"><b class="registration__point">Пароль</b></label>
+				<input type="password" placeholder="Введите пароль" name="psw" class="registration__text">
 
-		<div class="item__price-cart"><?=$good['price']?>₽</div>
-		</div>
-      </div>
-	  <?php
-		  }
-	  }
-	  ?>
-	  
-    </div>
+				<label for="psw-repeat"><b class="registration__point">Повторите пароль</b></label>
+				<input type="password" placeholder="Повторите пароль" name="psw-repeat" class="registration__text">
+				
+				<input type="checkbox"  name="change-psw"><label >Изменить пароль</label>
+				
+                <hr class="registration__line">
+				<button type="submit" class = "registerbtn" name = "submit">Изменить</button>
+				<?php
+					if ($_SESSION['message']) {
+						echo '<p class="msg"> ' . $_SESSION['message'] . ' </p>';
+					}
+					unset($_SESSION['message']);
+				?>
+	</div>
+	</form>
+	</div>
+    
 </div>
 	
 

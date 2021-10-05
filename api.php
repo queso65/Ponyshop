@@ -2,7 +2,7 @@
 
 session_start();
 require_once 'vendor/connect.php';
-include 'functions.php';
+require_once 'vendor/functions.php';
 
 if( isset($_POST['good_id']) ){
 	
@@ -44,5 +44,6 @@ if( isset($_POST['cart_link']) ){
 		echo 0;
 	}
 }
+
 
 ?>

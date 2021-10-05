@@ -1,7 +1,8 @@
 <?php
      require_once 'vendor/connect.php';
-	 require_once 'catalog.php';
-	 require_once 'functions.php';
+	 require_once 'vendor/catalog.php';
+	 require_once 'vendor/page.php';
+	 require_once 'vendor/functions.php';
      session_start();
 ?>
 <!DOCTYPE html>
@@ -33,10 +34,10 @@
 					</button>
 				</div>
 				<?php 
-				    if($_SESSION['user']['user_id'] == ''):
+				    if($_SESSION['user']['id'] == ''):
 				?>
 				<div class="login">
-				    <button class="button_login" onclick="window.location.href='login.php'">
+				    <button class="button-login" onclick="window.location.href='login.php'">
 					    Вход
 					</button>
 				</div>
@@ -46,8 +47,8 @@
                      <i class="fa fa-caret-down"></i>
                 </button>
                 <div class="dropdown-content" id="myDropdown">
-                    <a href="">Перейти</a>
-                    <a href="">Выход</a>
+                    <a href="vendor/addres.php">Перейти</a>
+                    <a href="vendor/exit.php">Выход</a>
                     </div>
                 </div> 	
                 <?php endif;?>					
@@ -71,17 +72,17 @@
 							<a href="index.php?id=<?= $category['id']?>" class="catalog__link">
 								<?=$category['title']?>
 							</a>
-							<?php
-						    foreach($categories as $subcategory){
-						    if($category['id'] == $subcategory['parent']){
-						    ?>
 							<div class="catalog__subcatalog">
-								<a href="index.php?id=<?= $subcategory['id']?>" class="catalog__subcatalog-link"><?=$subcategory['title']?></a>
-							</div>
 							<?php
-							    }
-							}
-                        ?>		
+								foreach($categories as $subcategory){
+								if($category['id'] == $subcategory['parent']){
+						    ?>
+								<a href="index.php?id=<?= $subcategory['id']?>" class="catalog__subcatalog-link"><?=$subcategory['title']?></a>
+							<?php
+									}
+								}
+							?>		
+							</div>
 							<?php
 							}
 						?>					
@@ -101,42 +102,50 @@
 	</div>
 	
 	
-<h1 class="new__goods">Новинки</h1>
+<h1 class="new__goods">
+	<?php
+	if($id != NULL){
+		$h1 = get_category_by_id($id);
+	echo($h1['title']);
+	}
+	else{
+		echo("все товары");
+	}
+	?>
+</h1>
 	
 <div class="product-center">
 <?php
-	foreach($goods as $good){
+    $numbers = count($goods);
+	$finish_goods = finish_goods($start_goods, $numbers);
+	for($i = $start_goods; $i < $finish_goods ; $i++){
 	?>
    <div class="product-item">
-            <img src="<?=$good['image']?>">
+            <img src="<?= $goods[$i]['image']?>">
             <div class="product-list">
-            <h3 class="item_title"><?=$good['name']?></h3>
-            <span class="price"><span class="item_price"><?=$good['price']?></span> ₽</span>
-            <button data-id="<? echo $good['id'] ?>" class="button add_item"><?php echo in_cart($good['id'])?></button>
+            <h3 class="item_title"><?= $goods[$i]['name']?></h3>
+            <span class="price"><span class="item_price"><?= $goods[$i]['price']?></span> ₽</span>
+            <button data-id="<? echo $goods[$i]['id'] ?>" class="button add_item"><?php echo in_cart($goods[$i]['id'])?></button>
         </div>
   </div>
   <?php
 	}
-?>
+  ?>
 </div>
 <div class = "pages">
     <div class = "page__left page-text">
-	  <<
 	</div>
-    <div class="page page-text">
-     1	
-	</div>
-	<div class="page page-text">
-     2
-	</div>
-	<div class="page page-text">
-     3
-	</div>
-	<div class="page page-text">
-     4	
-	</div>
+	<?php
+	$numbers = number_of_pages($goods);
+	for($i =0; $i < $numbers; $i++){
+	?>
+    <a data-id = "<?= $i ?>" class="page page-text" href="index.php?id=<?= $id ?>&page=<?= $i ?>">
+     <?= $i+1	?>
+	</a>
+	<?php
+	}
+	?>
 	<div class = "page__right page-text">
-	>>
 	</div>
 </div>
 <div class="grey__background">
@@ -149,5 +158,6 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
 <script src="scripts/menu_catalog.js"></script>
 <script src="scripts/main.js"></script>
+<script src="scripts/personal_area.js"></script>
 </body>
 </html>
